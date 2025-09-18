@@ -1,4 +1,4 @@
-const { nanoId } = require('nanoid');
+const {nanoid} = require('nanoid');
 const URL = require('../models/url.js');
 
 async function handleGenerateNewShortURL(req, res) {
@@ -25,6 +25,25 @@ async function handleGenerateNewShortURL(req, res) {
   return res.json({ id: shortId, message: "New short URL created" });
 }
 
+async function handleRedirectShortenUrlToOriginalWebiste(req,res){
+  const shortId=req.params.shortId;
+  const entry = await URL.findOneAndUpdate({shortId},
+  {
+    $push:{
+      visitHistory:{timestamp:Date.now()},
+    }
+  })
+  res.redirect(entry.redirectURL);
+}
+
+async function handleGetAnalytics(req,res){
+  const shortId=req.params.shortId;
+  const result=await URL.findOne({shortId});
+  return res.json({totalClicks:result.visitHistory.length,analytics:result.visitHistory})
+}
+
 module.exports={
     handleGenerateNewShortURL,
+    handleRedirectShortenUrlToOriginalWebiste,
+    handleGetAnalytics
 }
