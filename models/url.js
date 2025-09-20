@@ -10,7 +10,7 @@ const urlSchema=new mongoose.Schema({
         type:String,
         required: true
     },
-    visitHistory: [{timestamp:Number}]
+    visitHistory: [{timestamp:Number}]//doubt-4
 }, { timestamps: true }
 );
 

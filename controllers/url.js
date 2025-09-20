@@ -9,7 +9,7 @@ async function handleGenerateNewShortURL(req, res) {
   }
 
   // Check if this URL already exists
-  const existing = await URL.findOne({ redirectURL: body.url });
+  const existing = await URL.findOne({ redirectURL: body.url });//doubt-1
   if (existing) {
     return res.json({ id: existing.shortId, message: "Already exists" });
   }
@@ -27,10 +27,10 @@ async function handleGenerateNewShortURL(req, res) {
 
 async function handleRedirectShortenUrlToOriginalWebiste(req,res){
   const shortId=req.params.shortId;
-  const entry = await URL.findOneAndUpdate({shortId},
+  const entry = await URL.findOneAndUpdate({shortId},//doubt-2
   {
     $push:{
-      visitHistory:{timestamp:Date.now()},
+      visitHistory:{timestamp:Date.now()},//doubt-3
     }
   })
   res.redirect(entry.redirectURL);
@@ -39,7 +39,9 @@ async function handleRedirectShortenUrlToOriginalWebiste(req,res){
 async function handleGetAnalytics(req,res){
   const shortId=req.params.shortId;
   const result=await URL.findOne({shortId});
-  return res.json({totalClicks:result.visitHistory.length,analytics:result.visitHistory})
+  return res.json({
+    totalClicks:result.visitHistory.length,
+    analytics:result.visitHistory})
 }
 
 module.exports={
