@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
     <style>
-        body{
-            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+        body {
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .error {
+            color: red;
+            margin: 10px 0;
         }
     </style>
     <meta charset="UTF-8">
@@ -12,6 +16,11 @@
 </head>
 <body>
     <h1>Signup</h1>
+
+    <% if (typeof error !== "undefined") { %>
+        <p class="error"><%= error %></p>
+    <% } %>
+
     <form action="/user" method="post">
         <label>Full Name</label>
         <input type="text" required name="name"/>
@@ -19,7 +28,7 @@
         <input type="email" required name="email"/>
         <label>Password</label>
         <input type="password" required name="password"/>
-        <button type="submit">Signup</button>"
+        <button type="submit">Signup</button>
     </form>
 </body>
 </html>

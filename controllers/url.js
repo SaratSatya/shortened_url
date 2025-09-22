@@ -9,7 +9,7 @@ async function handleGenerateNewShortURL(req, res) {
   }
 
   // Check if this URL already exists
-  const existing = await URL.findOne({ redirectURL: body.url });//doubt-1
+  const existing = await URL.findOne({ redirectURL: body.url ,createdBy:req.user._id});//doubt-1
   if (existing) {
     return res.render("home",{id:existing.shortId})
   }
