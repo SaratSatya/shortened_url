@@ -11,7 +11,7 @@ async function handleGenerateNewShortURL(req, res) {
   // Check if this URL already exists
   const existing = await URL.findOne({ redirectURL: body.url });//doubt-1
   if (existing) {
-    return res.json({ id: existing.shortId, message: "Already exists" });
+    return res.render("home",{id:existing.shortId})
   }
 
   // Create a new one if not found
@@ -19,10 +19,12 @@ async function handleGenerateNewShortURL(req, res) {
   await URL.create({
     shortId: shortId,
     redirectURL: body.url,
-    visitHistory: []
+    visitHistory: [],
+    createdBy:req.user._id
   });
-
-  return res.json({ id: shortId, message: "New short URL created" });
+  
+  return res.render("home",{id:shortId})
+  // return res.json({ id: shortId, message: "New short URL created" });
 }
 
 async function handleRedirectShortenUrlToOriginalWebiste(req,res){

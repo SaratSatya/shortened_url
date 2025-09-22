@@ -10,7 +10,11 @@ const urlSchema=new mongoose.Schema({
         type:String,
         required: true
     },
-    visitHistory: [{timestamp:Number}]//doubt-4
+    visitHistory: [{timestamp:Number}],
+    createdBy:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'users',
+    }
 }, { timestamps: true }
 );
 
